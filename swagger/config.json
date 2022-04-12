@@ -1,0 +1,9 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Backend 'Evyz-chat' messenger",
+    "description": "Documentation REST API + WS",
+    "version": "0.0.1",
+    "description": "The REST API for Dangle Panel service"
+  }
+}
