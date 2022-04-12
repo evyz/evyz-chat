@@ -1,0 +1,57 @@
+.HeaderPublic {
+    width: 100%;
+    height: 75px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.InnerHeaderPublic {
+    width: 1440px;
+    height: 100%;
+
+    margin: auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Rigth button {
+    background: none;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 24px;
+    transition: 0.3s all;
+}
+
+.Rigth button:hover {
+    transform: scale(1.05);
+}
+
+.InnerHeaderPublic .Login {
+    background: #e8dcf8;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 400;
+    margin-left: 30px;
+}
+
+.InnerHeaderPublic .Register {
+    margin-right: 10px;
+}
+
+.InnerHeaderPublic .Login:hover {
+    background: #e3f6fd;
+}

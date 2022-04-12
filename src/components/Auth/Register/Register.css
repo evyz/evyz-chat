@@ -1,0 +1,22 @@
+.Register-Main {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Register-block {
+    width: 1200px;
+    height: 700px;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

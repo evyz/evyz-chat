@@ -1,0 +1,247 @@
+.Auth {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Auth-block {
+    width: 1200px;
+    height: 700px;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.3s all;
+}
+
+.Auth-block-reverse {
+    width: 1200px;
+    height: 700px;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.3s all;
+    flex-direction: row-reverse;
+}
+
+.Bounce-anim {
+    animation: bounceIn 0.3s;
+}
+.Bounce-anim-rev {
+    animation: bounceIn 0.3s;
+}
+
+.Auth-form {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Auth-content {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    background: #e3f6fd;
+}
+
+.Auth-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    position: absolute;
+
+    /* animation: openImg 2.5s; */
+}
+
+.Auth-slider {
+    width: 100%;
+    height: 100vh;
+    background: red;
+}
+
+.Auth-slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes openImg {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+.Auth-content-reverse {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    background: #e3f6fd;
+    /* animation: openImgReverse 2.5s; */
+}
+
+@keyframes openImgReverse {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+.Auth-title {
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 36px;
+}
+
+.Auth-input {
+    width: 70%;
+    height: 50px;
+    background: #e8dcf8;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+
+    margin-top: 30px;
+    transition: 0.3s all;
+}
+
+.Auth-input input {
+    width: 90%;
+    background: none;
+    outline: none;
+    border: none;
+    transition: 0.3s all;
+}
+
+.Auth-security {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: none;
+    outline: none;
+    border: none;
+    background: none;
+    transition: 0.3s all;
+}
+
+.Auth-security:hover {
+    transform: scale(1.3);
+}
+
+.Auth-button {
+    padding: 13px 61px;
+    font-weight: 800;
+    font-size: 20px;
+    color: #e3f6fd;
+    background: #000000;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+
+    margin-top: 50px;
+
+    transition: 0.3s all;
+}
+
+.Auth-button:hover {
+    background: none;
+    border: 2px solid black;
+
+    transform: scale(1.1);
+    font-size: 22px;
+
+    color: black;
+}
+
+.Auth-label {
+    position: absolute;
+    margin-bottom: 75px;
+    opacity: 1;
+    /* animation: showIn 0.3s; */
+    transition: 0.3s all;
+}
+
+.Auth-off-label {
+    position: absolute;
+    margin-bottom: 75px;
+    opacity: 0;
+    transition: 0.3s all;
+}
+
+.Auth-input-active {
+    background: none;
+    border: 2px solid #e8dcf8;
+    transition: 0.5s all;
+}
+
+.Auth-privacy {
+    padding: 10px;
+}
+
+.Auth-input-privacy {
+    background: none;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 15px;
+    outline: none;
+}
+
+@keyframes showIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

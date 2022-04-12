@@ -1,0 +1,53 @@
+import { observer } from 'mobx-react-lite'
+import React, { useContext, useEffect, useState } from 'react'
+import { Context } from '../..'
+import Chats from './Chats/Chats'
+import Dialog from './Dialog/Dialog'
+import NoneDialog from './Dialog/NoneDialog'
+import './Main.css'
+
+const Main = observer(() => {
+
+  const { user } = useContext(Context)
+
+  const [selectedChat, setSelectedChat] = useState({})
+
+  useEffect(() => {
+
+    if (selectedChat > 0) {
+      user.ws.current.send(
+        JSON.stringify({
+          type: "get:chat",
+          params: {
+            chatId: selectedChat
+          }
+        })
+      )
+    }
+
+    let arr = []
+    user.currentChat.map(chat => {
+      if (chat?.chatId === selectedChat) {
+        arr.push(chat)
+      }
+    })
+    user.setCurrentChat(arr)
+
+  }, [selectedChat, user.ws])
+
+
+  return (
+    <div className='Main' onKeyDown={e => e.keyCode === 27 && setSelectedChat(null)} tabIndex="0">
+      <Chats selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
+
+      {selectedChat > 0
+        ?
+        <Dialog selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
+        :
+        <NoneDialog />
+      }
+    </div>
+  )
+})
+
+export default Main

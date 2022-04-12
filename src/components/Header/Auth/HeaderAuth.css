@@ -1,0 +1,172 @@
+.HeaderAuth {
+    width: 7%;
+    height: 100vh;
+
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Header-buttons {
+    width: 100%;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Header-button {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    width: 75px;
+    height: 75px;
+    border-radius: 15px;
+
+    transition: 0.3s all;
+}
+
+.Header-button img {
+    width: 65%;
+}
+
+.Header-button-active {
+    background: #181818;
+    transform: scale(1.1);
+}
+
+.Header-button:hover {
+    background: #181818;
+    transform: scale(1.1);
+}
+
+.Log-alert {
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+
+    position: fixed;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10;
+
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.Inner-Log-alert {
+    width: 1200px;
+    height: 700px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    color: #181818;
+    border-radius: 25px;
+}
+.Log-row {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Log-row button {
+    /* background: none; */
+    /* padding: 0; */
+    outline: none;
+    border: none;
+}
+
+.Log-back {
+    font-size: 22px;
+    padding: 13px 17px;
+    background: #e8dcf8;
+    border-radius: 15px;
+
+    transition: 0.3s all;
+}
+
+.Log-back:hover {
+    transform: scale(1.1);
+    background: none;
+    border: 3px solid #e8dcf8;
+}
+
+.Log-stay {
+    font-size: 22px;
+    padding: 13px 17px;
+    background: black;
+    color: white;
+    border-radius: 15px;
+    transition: 0.3s all;
+}
+
+.Log-stay:hover {
+    transform: scale(1.1);
+    background: none;
+    color: black;
+    border: 3px solid black;
+}
+
+.Header-title {
+    margin-bottom: 20px;
+}
+
+.Header-ligth {
+    background: #181818;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.17),
+        -5px -5px 10px rgba(255, 255, 255, 0.17);
+    border-radius: 73px;
+}
+
+.Header-dark {
+    background: #f4f4f4;
+    box-shadow: 5px 5px 10px rgba(122, 122, 122, 0.17),
+        -5px -5px 10px rgba(196, 196, 196, 0.17);
+    border-radius: 73px;
+}
+
+.Night-mode {
+    width: 75px;
+    height: 75px;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 50px;
+
+    transition: 0.3s all;
+}
+
+.Night-mode:hover {
+    transform: scale(1.1);
+}
+
+.Night-mode-img {
+    width: 75%;
+}

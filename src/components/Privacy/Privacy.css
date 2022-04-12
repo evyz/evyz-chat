@@ -1,0 +1,24 @@
+.Privacy-outer {
+    width: 100%;
+    height: 100%;
+}
+
+.Privacy {
+    width: 1200px;
+    height: 100%;
+    margin: auto;
+
+    padding: 30px;
+    padding-top: 100px;
+}
+
+.Privacy button {
+    background: #e3f6fd;
+    padding: 13px 15px;
+    margin: 0;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 22px;
+}
