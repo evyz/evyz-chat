@@ -31,9 +31,9 @@ const Chats = observer(({ selectedChat, setSelectedChat }) => {
   return (
     <div className='Chats'>
       {chats.map(chat =>
-        <div className={`Chat ${selectedChat === chat && 'Active-Chat'}`} key={chat} onClick={() => setSelectedChat(chat)}>
+        <div className={`Chat ${selectedChat.id === chat.id && 'Active-Chat'}`} key={chat.id} onClick={() => setSelectedChat(chat)}>
           <div className='Chat-icon'></div>
-          <h2 className='Chat-title'>{chat}</h2>
+          <h2 className='Chat-title'>{chat.title}</h2>
         </div>
       )}
     </div>

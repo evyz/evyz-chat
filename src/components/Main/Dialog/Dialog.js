@@ -37,21 +37,22 @@ const Dialog = observer(({ selectedChat, setSelectedChat }) => {
   useEffect(() => {
     let arr = []
     user.currentChat.map(message => {
-      if (arr.length === 0) {
-        arr.push({ date: message.date, arr: [message] })
-      }
-      else {
-        let status = true
-        arr.map(messageArr => {
-          if (dayjs(message.date).format('DD/MM/YYYY') === dayjs(messageArr.date).format('DD/MM/YYYY')) {
-            messageArr.arr.push(message)
-            status = false
-          }
-        })
-        if (status) {
-          arr.push({ date: message.date, arr: [message] })
-        }
-      }
+      arr.push(message)
+      //   if (arr.length === 0) {
+      //     arr.push({ date: message.date, arr: [message] })
+      //   }
+      //   else {
+      //     let status = true
+      //     arr.map(messageArr => {
+      //       if (dayjs(message.date).format('DD/MM/YYYY') === dayjs(messageArr.date).format('DD/MM/YYYY')) {
+      //         messageArr.arr.push(message)
+      //         status = false
+      //       }
+      //     })
+      //     if (status) {
+      //       arr.push({ date: message.date, arr: [message] })
+      //     }
+      //   }
     })
     setData(arr)
   }, [user.currentChat])
@@ -73,24 +74,21 @@ const Dialog = observer(({ selectedChat, setSelectedChat }) => {
     }
   }, [user.isWriting])
 
+  console.log(data)
+
   return (
     <div className='Dialog' onKeyDown={event => event.keyCode === 13 && send()} >
       <DialogHeader selected={selectedChat} setSelected={setSelectedChat} />
 
       <div id="Dialog-scroll" ref={h2ref} className='Dialog-scroll'>
         {data.map(msg =>
-          <div>
-            <span className='Message-date'>{dayjs(msg.date).format('DD MMMM')}</span>
-            {msg.arr.map(msg =>
-              <div className={`Message ${msg.userId === user.getUser.id && "My-message"}`} key={msg.date}>
-                <div className='Message-row'>
-                  <h2>{user.users.find(user => user.id === msg.userId)?.nickname}</h2>
-                  <span>{dayjs(msg.date).format('HH:MM')}</span>
-                </div>
-                <span>{msg.message}</span>
-              </div>
-            )}
-
+          <div key={msg.id} className={`Message ${msg.userId === user.getUser.id && "My-message"}`} >
+            <div className='Message-row'>
+              <h2>{msg.nickname}</h2>
+              {/* Доделать логику с ID!!!  */}
+              {/* <span>{dayjs(msg.date).format('HH:MM')}</span> */}
+            </div>
+            <span>{msg.message}</span>
           </div>
         )}
       </div>

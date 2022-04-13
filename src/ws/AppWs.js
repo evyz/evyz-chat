@@ -22,7 +22,7 @@ const AppWs = ({ message, user, notification, setNotification }) => {
       user.chats.map(chat => {
         let status = false
         arr3.map(chatArr => {
-          if (chat === chatArr) {
+          if (chat.id === chatArr.id) {
             status = true
           }
         })
@@ -30,21 +30,19 @@ const AppWs = ({ message, user, notification, setNotification }) => {
           arr3.push(chat)
         }
       })
-      arr3.push(message.id)
+      arr3.push(message)
       user.setChats(arr3)
       break
     case "get:message":
       let arr5 = []
       let status = false
       if (user.currentChat.length > 0) {
-        if (user.currentChat[0].chatId === message.chatId) {
+        if (user.currentChat[0].id === message.id) {
           if (user.currentChat.length === 0) {
             arr5.push({
               id: message.id,
               message: message.message,
-              date: message.date,
-              userId: message.userId,
-              chatId: message.chatId,
+              nickname: message.nickname,
             })
           }
           user.currentChat.map(chat => {
@@ -57,18 +55,15 @@ const AppWs = ({ message, user, notification, setNotification }) => {
             arr5.push({
               id: message.id,
               message: message.message,
-              date: message.date,
-              userId: message.userId,
-              chatId: message.chatId,
+              nickname: message.nickname,
               linkTo: "chat"
             })
           }
-          if (message.chatId !== user.currentChat[0].chatId) {
+          if (message.id !== user.currentChat[0].id) {
             setNotification({
               id: message.id,
               message: message.message,
-              date: message.date,
-              toId: message.chatId,
+              nickname: message.nickname,
               linkTo: "chat"
             })
           }
@@ -77,8 +72,7 @@ const AppWs = ({ message, user, notification, setNotification }) => {
         setNotification({
           id: message.id,
           message: message.message,
-          date: message.date,
-          toId: message.chatId,
+          nickname: message.nickname,
           linkTo: "chat"
         })
       }
@@ -92,9 +86,7 @@ const AppWs = ({ message, user, notification, setNotification }) => {
       arr4.push({
         id: message.id,
         message: message.message,
-        date: message.date,
-        userId: message.userId,
-        chatId: message.chatId,
+        nickname: message.nickname,
       })
       user.setCurrentChat(arr4)
       break

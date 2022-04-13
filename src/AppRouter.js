@@ -73,7 +73,7 @@ const AppRouter = observer(() => {
       wsHref.current.onclose = () => console.log('Отключён')
 
       setTimeout(() => {
-        wsHref.current.send(JSON.stringify({ type: "get:chats" }))
+        wsHref.current.send(JSON.stringify({ type: "get:chats", params: { page: 1 } }))
       }, 1000)
 
       user.setWs(wsHref)
