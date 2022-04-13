@@ -1,0 +1,46 @@
+.ClearCashAlert {
+    width: 100%;
+    height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: black;
+
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.ClearCashAlert::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    left: 0;
+
+    position: absolute;
+
+    /* box-shadow: inset 0 0 5000px rgba(54, 54, 54, 0.5); */
+
+    background: rgba(0, 0, 0, 0.3);
+    filter: blur(40px);
+    z-index: -1;
+}
+
+.ClearCashAlertInner {
+    width: 500px;
+    height: 500px;
+
+    background: white;
+
+    border-radius: 25px;
+
+    padding: 15px;
+}

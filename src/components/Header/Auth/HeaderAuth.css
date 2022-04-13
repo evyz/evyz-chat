@@ -3,8 +3,8 @@
     height: 100vh;
 
     /* position: fixed; */
-    top: 0;
-    left: 0;
+    /* top: 0;
+    left: 0; */
 
     display: flex;
     flex-direction: column;
@@ -169,4 +169,58 @@
 
 .Night-mode-img {
     width: 75%;
+}
+
+@media screen and (max-width: 1140px) {
+    .HeaderAuth {
+        width: 7%;
+    }
+    .Header-button {
+        width: 50px;
+        height: 50px;
+    }
+    .Header-buttons {
+        height: 200px;
+    }
+    .Night-mode {
+        width: 50px;
+        height: 50px;
+    }
+    .Night-mode img {
+        width: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .HeaderAuth {
+        width: 100%;
+        height: 7%;
+
+        position: fixed;
+        bottom: 0;
+        left: 0;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .Header-button {
+        width: 50px;
+        height: 50px;
+    }
+    .Header-buttons {
+        width: 500px;
+        flex-direction: row;
+        height: 100%;
+        justify-content: space-around;
+    }
+    .Night-mode {
+        width: 50px;
+        height: 50px;
+        margin: 0;
+    }
+    .Night-mode img {
+        height: 30px;
+    }
 }
