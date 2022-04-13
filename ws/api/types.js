@@ -1,23 +1,29 @@
-const { getChats, getMessages, connectToChat, getOnline, disconnectUser, sendMessageToChat, userIsWriting } = require("../service")
+const { getChats, getMessages, connectToChat, getOnline, disconnectUser, sendMessageToChat, userIsWriting, createChat } = require("../service")
 
-module.exports = (ws, req, aWs, type, params) => {
+module.exports = async (ws, req, aWs, type, params) => {
   switch (type) {
     case "get:chats":
-      getChats(ws, req, aWs)
+      getChats(ws, req, aWs, params.page)
+      break
+    case "create:chat":
+      if (params.title) {
+        console.log("A")
+        createChat(ws, req, aWs, params.title)
+      }
       break
     case "get:chat":
-      if (params.chatId) {
-        getMessages(ws, req, params.chatId)
+      if (params.chatId && params.page) {
+        getMessages(ws, req, params.chatId, params.page)
       }
       break
     case "connect:chat":
       if (params.chatId) {
-        connectToChat(ws, req, params.chatId, params.userId)
+        connectToChat(ws, req, aWs, params.chatId, params.userId)
       }
       break
-    case "get:online":
-      getOnline(ws, req)
-
+    // case "get:online":
+    //   getOnline(ws, req)
+    //   break
     case "disconnect":
       disconnectUser(ws, req, aWs)
       break
@@ -26,10 +32,11 @@ module.exports = (ws, req, aWs, type, params) => {
         sendMessageToChat(ws, req, aWs, params.content, params.chatId)
       }
       break
-    case "send:writing":
-      if (params.chatId) {
-        userIsWriting(ws, req, aWs, params.chatId)
-      }
-      break
+    // case "send:writing":
+    //   if (params.chatId) {
+    //     userIsWriting(ws, req, aWs, params.chatId)
+    //   }
+    //   break
+
   }
 }

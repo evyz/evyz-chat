@@ -4,65 +4,81 @@ const usersChats = [{ id: 1, userId: 2, chatId: 1 }, { id: 1, userId: 2, chatId:
 
 const db = require('../db/index')
 const online = require('./online')
+const { attachPaginate } = require('knex-paginate');
+attachPaginate();
 
 class ServiceWs {
-  async getChats(ws, req, aWs) {
-    let arr = []
+  async getChats(ws, req, aWs, page) {
 
-    usersChats.map(userChat => {
-      if (userChat.userId === req.user.id) {
-        chats.map(chat => {
-          if (chat.id === userChat.chatId) {
-            arr.push(chat)
-          }
-        })
-      }
-    })
+    let query = await db
+      .select('Chats.id', 'Chats.title')
+      .from('Users_Chats')
+      .innerJoin('Users', 'Users.id', 'Users_Chats.userId')
+      .innerJoin('Chats', 'Chats.id', 'Users_Chats.chatId')
+      .where({ 'Users_Chats.userId': req.user.id })
+      .paginate({
+        perPage: 40,
+        currentPage: page
+      })
 
-    console.log(arr)
-
-    arr.map(obj => ws.send(JSON.stringify({ type: "get:chats", ...obj })))
+    query.data.map(obj => ws.send(JSON.stringify({ type: "get:chats", ...obj })))
   }
 
-  async getMessages(ws, req, chatId) {
-    let users = await db.select(['id', 'nickname']).from('Users')
+  async getMessages(ws, req, chatId, page) {
+    let query = await db
+      .select('Messages.id', 'Messages.message', 'Users.id', 'Users.nickname')
+      .from('Messages')
+      .innerJoin('Users', 'Users.id', 'Messages.authorId')
+      .orderBy('Messages.id', 'desc')
+      .where({ 'Messages.chatId': chatId })
+      .paginate({
+        perPage: 40,
+        currentPage: page
+      })
 
-    let arr = []
-    messages.map(async message => {
-      if (message.chatId === chatId) {
-        let nickname = users.find(user => user.id === message.userId).nickname
-        console.log(message)
-        arr.push({ ...message, nickname })
-      }
-    })
+    console.log(query.data)
 
-    arr.map(obj => ws.send(JSON.stringify({ type: "get:chat", ...obj })))
+    query.data.map(obj => ws.send(JSON.stringify({ type: "get:chat", ...obj })))
   }
 
-  async getOnline(ws, req) {
-    console.log(online)
-    online.map(user => {
-      ws.send(JSON.stringify({ type: "get:online", user: user }))
-    })
-  }
+  // async getOnline(ws, req) {
+  //   console.log(online)
+  //   online.map(user => {
+  //     ws.send(JSON.stringify({ type: "get:online", user: user }))
+  //   })
+  // }
 
-  async connectToChat(ws, req, chatId, userId) {
-    chats.map(chat => {
-      if (chat.id === chatId) {
-        // let status = false
-        // usersChats.map(userChat => {
-        //   console.log(userChat)
-        //   if (userChat.userId === userId) {
-        //     status = true
-        //     ws.send('Вы уже подключены к этому чату')
-        //   }
-        // })
-        // if (!status) {
-        let obj = { id: usersChats.length, userId: userId, chatId }
-        usersChats.push(obj)
-        ws.send(JSON.stringify({ type: "get:chats", ...obj }))
+  async connectToChat(ws, req, aWs, chatId, userId) {
+    let obj = {}
+
+    let query = await db
+      .select('Users.id')
+      .from('Users')
+      .where({ "Users.id": userId })
+      .first()
+
+    if (!query) {
+      ws.send({ error: "Неверный ID пользователя" })
+    }
+
+    query = await db
+      .insert({ userId: userId, chatId: chatId })
+      .into('Users_Chats')
+      .then(async () => {
+        obj = await db
+          .select('Chats.id', 'Chats.title')
+          .from('Users_Chats')
+          .innerJoin('Chats', 'Chats.id', 'Users_Chats.chatId')
+          .where({ userId: userId, chatId: chatId })
+          .orderBy('id', 'desc')
+          .limit(1)
+          .first()
+      })
+
+    aWs.clients.forEach(client => {
+      if (client.id === obj.id) {
+        client.send(JSON.stringify({ type: "get:chats", ...obj }))
       }
-      // }
     })
   }
 
@@ -76,51 +92,77 @@ class ServiceWs {
   }
 
   async sendMessageToChat(ws, req, aWs, message, chatId) {
-    let arr = []
+    let obj = {}
 
-    let obj = { id: messages.length, message: message, chatId: chatId, userId: req.user.id, date: new Date() }
-    messages.push(obj)
+    let query = await db
+      .insert({ message, chatId, authorId: req.user.id })
+      .into('Messages')
+      .then(async () => {
+        obj = await db
+          .select('Users.id', 'Users.nickname', 'Messages.id', 'Messages.message')
+          .innerJoin('Users', 'Messages.authorId', 'Users.id')
+          .from('Messages')
+          .orderBy('id', 'desc')
+          .limit(1)
+          .first()
+      })
 
-    usersChats.map(userChat => {
-      if (userChat.chatId === chatId) {
-        arr.push(userChat)
-      }
-    })
+    console.log(obj)
+
+    query = await db
+      .select('Users.id', 'Users.nickname')
+      .from('Users')
+      .innerJoin('Users_Chats', 'Users.id', 'Users_Chats.userId')
+      .where({ 'Users_Chats.chatId': chatId })
+
 
     aWs.clients.forEach(client => {
-      arr.map(user => {
-        if (client.id === user.userId) {
+      query.map(user => {
+        if (client.id === user.id) {
           client.send(JSON.stringify({ type: "get:message", ...obj }))
         }
       })
     })
-
-    ws.send(JSON.stringify({ type: "get:message", ...obj }))
   }
 
-  async userIsWriting(ws, req, aWs, chatId) {
-    let status = false
-    usersChats.map(userChat => {
-      if (userChat.chatId === chatId) {
-        status = true
-      }
-    })
-    if (status) {
-      let arr = []
-      usersChats.map(userChat => {
-        if (userChat.chatId === chatId) {
-          arr.push(userChat)
-        }
+  // async userIsWriting(ws, req, aWs, chatId) {
+  //   let status = false
+  //   usersChats.map(userChat => {
+  //     if (userChat.chatId === chatId) {
+  //       status = true
+  //     }
+  //   })
+  //   if (status) {
+  //     let arr = []
+  //     usersChats.map(userChat => {
+  //       if (userChat.chatId === chatId) {
+  //         arr.push(userChat)
+  //       }
+  //     })
+
+  //     aWs.clients.forEach(client => {
+  //       arr.map(user => {
+  //         if (client.id === user.userId) {
+  //           client.send(JSON.stringify({ type: "send:writing", chatId, userId: req.user.id }))
+  //         }
+  //       })
+  //     })
+  //   }
+  // }
+  async createChat(ws, req, aWs, title) {
+    let obj = {}
+    await db.insert({ title }).into('Chats')
+      .then(id => {
+        console.log(id)
+      }).then(async () => {
+        obj.chat = await db.select().from('Chats').orderBy('id', 'desc').limit(1).first()
+      }).then(async () => {
+        await db.insert({ userId: req.user.id, chatId: obj.chat.id }).into('Users_Chats')
+      }).then(async () => {
+        obj.chatConnection = await db.select().from('Users_Chats').orderBy('id', 'desc').limit(1).first()
       })
 
-      aWs.clients.forEach(client => {
-        arr.map(user => {
-          if (client.id === user.userId) {
-            client.send(JSON.stringify({ type: "send:writing", chatId, userId: req.user.id }))
-          }
-        })
-      })
-    }
+    ws.send(JSON.stringify(obj))
   }
 
 }

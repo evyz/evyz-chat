@@ -7,29 +7,28 @@ exports.up = function (knex) {
       table.string('password')
     })
     .createTable('Chats', table => {
-      table.increments('id')
+      table.increments('id').primary()
       table.string('title')
-      table.primary('id')
     })
     .createTable('Users_Chats', table => {
       table.increments('id')
-      table.increments('userId').references('id').inTable('Users')
-      table.increments('chatId').references('id').inTable('Chats')
+      table.integer('userId').references('id').inTable('Users')
+      table.integer('chatId').references('id').inTable('Chats')
       table.primary('id')
     })
     .createTable('Messages', table => {
-      table.increments('id')
+      table.increments('id').primary()
       table.text('message')
       table.integer('authorId').references('id').inTable('Users')
       table.integer('chatId').references('id').inTable('Chats')
-      table.primary('id')
+      table.date('date')
     })
 };
 
 
 exports.down = function (knex) {
   return knex.schema
-    // .dropTable('Users_Friends')
+    .dropTable('Users_Chats')
     .dropTable('Messages')
     .dropTable('Chats')
     .dropTable('Users')
