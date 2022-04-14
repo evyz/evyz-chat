@@ -36,47 +36,36 @@ const AppWs = ({ message, user, notification, setNotification }) => {
     case "get:message":
       let arr5 = []
       let status = false
+
+      const obj = {
+        id: message.id,
+        message: message.message,
+        nickname: message.nickname,
+        chatId: message.chatId,
+        userId: message.userId,
+      }
+
       if (user.currentChat.length > 0) {
-        if (user.currentChat[0].id === message.id) {
-          if (user.currentChat.length === 0) {
-            arr5.push({
-              id: message.id,
-              message: message.message,
-              nickname: message.nickname,
-            })
-          }
-          user.currentChat.map(chat => {
-            arr5.push(chat)
-            if (chat.id === message.id) {
-              status = true
-            }
+        if (user.currentChat[0].chatId === message.chatId) {
+          user.currentChat.map(curMessage => {
+            arr5.push(curMessage)
           })
-          if (!status) {
-            arr5.push({
-              id: message.id,
-              message: message.message,
-              nickname: message.nickname,
-              linkTo: "chat"
-            })
-          }
-          if (message.id !== user.currentChat[0].id) {
-            setNotification({
-              id: message.id,
-              message: message.message,
-              nickname: message.nickname,
-              linkTo: "chat"
-            })
-          }
+          arr5.push(message)
+
+          user.setCurrentChat(arr5)
         }
       } else {
         setNotification({
-          id: message.id,
-          message: message.message,
-          nickname: message.nickname,
+          ...obj,
           linkTo: "chat"
         })
       }
-      user.setCurrentChat(arr5)
+      if (user.chat === null) {
+        setNotification({
+          ...obj,
+          linkTo: "chat"
+        })
+      }
       break
     case "get:chat":
       let arr4 = []
@@ -87,6 +76,8 @@ const AppWs = ({ message, user, notification, setNotification }) => {
         id: message.id,
         message: message.message,
         nickname: message.nickname,
+        chatId: message.chatId,
+        userId: message.userId,
       })
       user.setCurrentChat(arr4)
       break

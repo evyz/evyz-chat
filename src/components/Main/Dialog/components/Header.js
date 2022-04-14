@@ -35,16 +35,18 @@ const DialogHeader = observer(({ selected, setSelected }) => {
   }, [user.users])
 
   const inviteUserToChat = () => {
+    console.log(selected, selectedUser.id)
+
     user.ws.current.send(JSON.stringify({
       type: "connect:chat",
       params: {
-        chatId: selected,
+        chatId: selected.id,
         userId: selectedUser.id
       }
     }
     ))
     setIsInvite(false)
-    alert('Пользователь', user.users.find(user => user.id === selectedUser.id).nickname, "был приглашён")
+    alert('Пользователь', selectedUser.nickname, "был приглашён")
   }
 
   return (
@@ -82,7 +84,7 @@ const DialogHeader = observer(({ selected, setSelected }) => {
 
       <div className='Dialog-name'>
         <div className='Dialog-icon'></div>
-        {selected.name}
+        {selected?.name}
       </div>
       <div className='Dialog-settings' onClick={() => setIsSettings(!isSettings)}>
         <div className='Dialog-circle'></div>

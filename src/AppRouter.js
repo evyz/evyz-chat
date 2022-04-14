@@ -104,7 +104,19 @@ const AppRouter = observer(() => {
     <div className={`${user.isAuth && 'AppRouter'} ${user.isDark ? 'bg-dark' : 'bg-ligth'} `}>
       <Warning />
       {notification?.message &&
-        <div className='App-notification' onClick={() => setNotification({})}>
+        <div
+          className='App-notification'
+          onClick={() => {
+            if (notification?.linkTo === 'chat') {
+              user.setChat({ id: notification.chatId })
+              setTimeout(() => {
+                setNotification({})
+              }, 300)
+            } else {
+              setNotification({})
+            }
+          }}
+        >
           {notification?.linkTo === 'chat' && <h2>Новое сообщение из чата!</h2>}
           <span>{notification?.toId}</span>
           <h2>{notification?.message}</h2>

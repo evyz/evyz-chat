@@ -9,7 +9,6 @@ import 'dayjs/locale/ru'
 dayjs.locale('ru')
 
 
-
 const Dialog = observer(({ selectedChat, setSelectedChat }) => {
 
   const { user } = useContext(Context)
@@ -25,7 +24,7 @@ const Dialog = observer(({ selectedChat, setSelectedChat }) => {
       user.ws.current.send(JSON.stringify({
         type: "send:message",
         params: {
-          chatId: selectedChat,
+          chatId: selectedChat.id,
           content: myMessage
         }
       }
@@ -38,43 +37,16 @@ const Dialog = observer(({ selectedChat, setSelectedChat }) => {
     let arr = []
     user.currentChat.map(message => {
       arr.push(message)
-      //   if (arr.length === 0) {
-      //     arr.push({ date: message.date, arr: [message] })
-      //   }
-      //   else {
-      //     let status = true
-      //     arr.map(messageArr => {
-      //       if (dayjs(message.date).format('DD/MM/YYYY') === dayjs(messageArr.date).format('DD/MM/YYYY')) {
-      //         messageArr.arr.push(message)
-      //         status = false
-      //       }
-      //     })
-      //     if (status) {
-      //       arr.push({ date: message.date, arr: [message] })
-      //     }
-      //   }
     })
     setData(arr)
+    h2ref.current.scrollTop = h2ref.current.scrollHeight
   }, [user.currentChat])
-
-  // useEffect(() => {
-  //   if (myMessage.length > 0) {
-  //     user.ws.current.send(JSON.stringify({
-  //       type: "send:writing",
-  //       params: {
-  //         chatId: selectedChat,
-  //       }
-  //     }))
-  //   }
-  // }, [myMessage])
 
   useEffect(() => {
     if (user.isWriting.chatId === selectedChat) {
       setIsWriting(user.isWriting)
     }
   }, [user.isWriting])
-
-  console.log(data)
 
   return (
     <div className='Dialog' onKeyDown={event => event.keyCode === 13 && send()} >
@@ -85,8 +57,6 @@ const Dialog = observer(({ selectedChat, setSelectedChat }) => {
           <div key={msg.id} className={`Message ${msg.userId === user.getUser.id && "My-message"}`} >
             <div className='Message-row'>
               <h2>{msg.nickname}</h2>
-              {/* Доделать логику с ID!!!  */}
-              {/* <span>{dayjs(msg.date).format('HH:MM')}</span> */}
             </div>
             <span>{msg.message}</span>
           </div>

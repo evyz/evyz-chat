@@ -414,3 +414,41 @@
 .Message-row span {
     margin-left: 10px;
 }
+
+.Chat-Add {
+    padding-top: 10px;
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Chat-Add-Button {
+    border: 2px solid #e8dcf8;
+
+    background: none;
+    outline: none;
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-size: 48px;
+    font-weight: 800;
+
+    color: #e8dcf8;
+
+    transition: 0.3s all;
+}
+
+.Chat-Add-Button:hover {
+    background: #e8dcf8;
+    color: black;
+    transform: scale(1.1);
+}

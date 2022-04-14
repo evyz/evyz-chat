@@ -12,6 +12,7 @@ export default class UserStore {
     this._users = []
 
     this._chats = []
+    this._chat = {}
     this._currentChat = []
     this._ws = null
 
@@ -43,6 +44,9 @@ export default class UserStore {
 
   setChats(arr) {
     this._chats = arr
+  }
+  setChat(obj) {
+    this._chat = obj
   }
   setCurrentChat(arr) {
     this._currentChat = arr
@@ -81,6 +85,10 @@ export default class UserStore {
 
   get chats() {
     return this._chats
+  }
+
+  get chat() {
+    return this._chat
   }
 
   get currentChat() {
