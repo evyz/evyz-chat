@@ -26,7 +26,7 @@ class ServiceWs {
 
   async getMessages(ws, req, chatId, page) {
     let query = await db
-      .select('Messages.id', 'Messages.message', 'Users.id', 'Users.nickname')
+      .select('Messages.id', 'Messages.message', 'Users.id as userId', 'Users.nickname', 'Messages.chatId')
       .from('Messages')
       .innerJoin('Users', 'Users.id', 'Messages.authorId')
       .orderBy('Messages.id', 'desc')
@@ -35,8 +35,6 @@ class ServiceWs {
         perPage: 40,
         currentPage: page
       })
-
-    console.log(query.data)
 
     query.data.map(obj => ws.send(JSON.stringify({ type: "get:chat", ...obj })))
   }
@@ -99,15 +97,13 @@ class ServiceWs {
       .into('Messages')
       .then(async () => {
         obj = await db
-          .select('Users.id', 'Users.nickname', 'Messages.id', 'Messages.message')
+          .select('Messages.id', 'Messages.message', 'Users.id as userId', 'Users.nickname', 'Messages.chatId')
           .innerJoin('Users', 'Messages.authorId', 'Users.id')
           .from('Messages')
-          .orderBy('id', 'desc')
+          .orderBy('Messages.id', 'desc')
           .limit(1)
           .first()
       })
-
-    console.log(obj)
 
     query = await db
       .select('Users.id', 'Users.nickname')
