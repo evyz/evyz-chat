@@ -1,6 +1,8 @@
 # Мессенджер Evyz-chat
 Мессенджер на NodeJs + ReactJs + Ws
 
+![баннер](https://user-images.githubusercontent.com/73714921/163801152-26a224b5-bad8-4de3-8022-b65878403108.svg)
+
 Бек:
   - express
   - jwt-токены для авторизации
@@ -22,3 +24,4 @@
 
 ## - [Бекенд](https://github.com/evyz/evyz-chat/tree/backend)
 ## - [Фронт](https://github.com/evyz/evyz-chat/tree/frontend)
+
