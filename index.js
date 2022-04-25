@@ -9,14 +9,17 @@ const cors = require('cors')
 
 const errorHandling = require('./error/errorHandling')
 
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger/config.json')
+
+const aWs = expressWs.getWss('/api/ws')
 const authWs = require('./middlewares/authWs')
 const wsApi = require('./ws/index')
 const online = require('./ws/online')
 
-const aWs = expressWs.getWss('/api/ws')
-
 app.use(express.json())
 app.use(cors())
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api', api)
 
 app.use(errorHandling)

@@ -21,9 +21,6 @@ module.exports = async (ws, req, aWs, type, params) => {
         connectToChat(ws, req, aWs, params.chatId, params.userId)
       }
       break
-    // case "get:online":
-    //   getOnline(ws, req)
-    //   break
     case "disconnect":
       disconnectUser(ws, req, aWs)
       break

@@ -5,5 +5,30 @@
     "description": "Documentation REST API + WS",
     "version": "0.0.1",
     "description": "The REST API for Dangle Panel service"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7070/api"
+    }
+  ],
+  "apis": ["../api/index.js"],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "summary": "User registration in the system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
   }
 }

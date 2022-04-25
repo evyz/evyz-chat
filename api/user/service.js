@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 
 
 class UserService {
+
   async register(ctx) {
     const { nickname, password } = ctx.body
     if (!nickname || !password) {
