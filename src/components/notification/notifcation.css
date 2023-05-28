@@ -1,0 +1,6 @@
+.notifcation_block {
+  position: absolute;
+  top: 20px;
+
+  z-index: 100;
+}
