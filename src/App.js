@@ -119,6 +119,17 @@ function App() {
         }
         setConnections(arr);
       }
+      if (message?.type === "user-disconnected") {
+        let arr = connections;
+        let index = arr.findIndex(
+          (item) => item.subscriberId === message?.subscriberId
+        );
+        if (index > -1) {
+          arr.splice(index, 1);
+        }
+
+        setConnections(arr);
+      }
       setData((prev) => [...prev, message]);
     };
   }, [isPaused]);
