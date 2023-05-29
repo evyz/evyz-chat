@@ -132,7 +132,7 @@ app.ws("/", (ws, req) => {
         let clientsFromNewRoom = connections.filter((connect) =>
           connect.room === chatId ? true : false
         );
-        for (let client of clientsFromRoom) {
+        for (let client of clientsFromNewRoom) {
           let sub = subscribers.find(
             (sub) => sub.subscriberId === client.subscriberId
           );
@@ -199,6 +199,7 @@ app.ws("/", (ws, req) => {
       }
     }
   });
+  ws.on("close", () => {});
 });
 
 app.post("/login", (req, res) => {
